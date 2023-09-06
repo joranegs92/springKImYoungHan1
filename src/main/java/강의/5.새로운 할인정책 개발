@@ -1,0 +1,26 @@
+
+새로운 할인정책을 확장해보자~~~
+
+지금까지,, 정액정책을 펼쳤다.. vip는 무조건 1000원할인이었는데 바꾸고싶은 정책은!!! 10%할인으로 바뀐것!!
+우리는 유연한 설계를 준수했기때문에 문제없어!
+
+
+기존에는 discountPolicy에 FixDiscountPolicy정책을 펼쳤지만 이제는 RateDiscountPolicy로 사용할거야!!
+----------------------------------------------------------------------------------------------------------------------------------------------
+3. 클래스 다이어그램
+
+    <interface>                                     <interface>
+    OrderService        - - - - - - - - >          MemberRepository
+          ^             |                                ^
+          |             |                                |
+          |             |               ----------------    ---------------
+    OrderServiceImpl-----           MemoryMemberRepository   DbMemberRepository
+                        |
+                        |
+                        |
+                        - - - - - - - - >           <interface>
+                                                   DiscountPolicy
+                                                         ^
+                                                         |
+                                        ----------------    ---------------
+                                        FixDiscountPolicy   RateDiscountPolicy
