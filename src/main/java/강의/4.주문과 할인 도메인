@@ -37,3 +37,30 @@
               4. 주문결과 반환     |                 -------> 할인정책 역할 <-------
                                 |                                              |----------정액할인정책
                                 주문서비스 구현체
+
+3. 클래스 다이어그램
+
+    <interface>                                     <interface>
+    OrderService        - - - - - - - - >          MemberRepository
+          ^             |                                ^
+          |             |                                |
+          |             |               ----------------    ---------------
+    OrderServiceImpl-----           MemoryMemberRepository   DbMemberRepository
+                        |
+                        |
+                        |
+                        - - - - - - - - >           <interface>
+                                                   DiscountPolicy
+                                                         ^
+                                                         |
+                                        ----------------    ---------------
+                                        FixDiscountPolicy   RateDiscountPolicy
+
+4. 주문 도메인 객체 다이어그램
+        클라이언트 ------> 주문서비스 구현체 ----->메모리 회원저장소
+                                        -----> 정액 할인정책
+
+        회원을 메모리에서 조회하고 정액할인 정책을 지원해도 주문서비스를 변경하지 않아도 된다.
+
+        객체지향적으로 클래스를 짠것이 바로 이것이다.
+        정책이 바뀌어도 구현체는 바뀌지 않는다.
