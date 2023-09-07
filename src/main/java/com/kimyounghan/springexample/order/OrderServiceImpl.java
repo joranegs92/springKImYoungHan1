@@ -4,14 +4,19 @@ import com.kimyounghan.springexample.discount.DiscountPoilicy;
 import com.kimyounghan.springexample.discount.FixDiscountPolicy;
 import com.kimyounghan.springexample.member.Member;
 import com.kimyounghan.springexample.member.MemberRepository;
-import com.kimyounghan.springexample.member.MemberService;
-import com.kimyounghan.springexample.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
 
-	private final MemberRepository memberRepository = new MemoryMemberRepository();
-	private final DiscountPoilicy discountPoilicy = new FixDiscountPolicy();
+	private final MemberRepository memberRepository;
+	private final DiscountPoilicy discountPoilicy;
+	private final FixDiscountPolicy fixDiscountPolicy;
+
+	public OrderServiceImpl(MemberRepository memberRepository, DiscountPoilicy discountPoilicy, FixDiscountPolicy fixDiscountPolicy) {
+		this.memberRepository = memberRepository;
+		this.discountPoilicy = discountPoilicy;
+		this.fixDiscountPolicy = fixDiscountPolicy;
+	}
 
 
 	@Override

@@ -1,8 +1,11 @@
 package com.kimyounghan.springexample.member;
 
+import com.kimyounghan.springexample.AppConfig;
+
 public class MemberApp {
 	public static void main(String[] args) {
-		MemberService memberService = new MemberServiceImpl();
+		AppConfig appConfig =new AppConfig();
+		MemberService memberService = appConfig.memberService();
 		Member member = new Member(1L, "조현수", Grade.VIP);
 		memberService.join(member);
 

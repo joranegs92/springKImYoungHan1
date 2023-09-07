@@ -1,0 +1,45 @@
+### 관심사의 분리
+    관심사를 분리하자... 
+    지금까지 한 작업은 무대를 구성하고 연기하는걸 한 배우가 다 담당하는것과 같다.
+    이제는 공연 기획자가 필요하다. 
+
+### AppConfig의 등장
+    appconfig는 실제 동작에 필요한 구현객체를 생성한다!! 
+    appconfig는 생성한 객체 인스턴ㄴ스의참조를 생성자를 통해 주입해준다.
+1. MemberServiceImpl -> MemoryMemberRepository
+
+   `     public MemberService memberService(){
+   return new MemberServiceImpl(new MemoryMemberRepository());
+   }`
+
+   memberServiceImpl 에서 생성자를 추가한다.
+   기존의 코드는` 	private final MemberRepository memberRepository = new MemoryMemberRepository();`
+   변경한 코드는`	public MemberServiceImpl(MemberRepository memberRepository) {
+   this.memberRepository = memberRepository;
+   }`
+
+2. OrderServiceImpl -> MemoryMemberRepository , FixDiscountPolicy
+
+   `	public OrderService orderService(){
+   return new OrderServiceImpl(new MemoryMemberRepository(),
+   new RateDiscountPolicy(), new FixDiscountPolicy());
+   }`
+   
+ **이제 어떤 구현객체가 들어오는지는 appconfig에서 결정하고 service단에서는 구현에만 집중하면된다.**
+ <img src="../../resources/img/20230907_161207.png">
+
+ DIP의 완성이다. 
+
+
+### 클래스 다이어그램
+    appconfig객체는 memoryMemberRepository객체를 생성하고 그 참조값을 memberServiceImpl을 생성하면서 생성자로 전달한다. 
+     이걸 의존관계주입이라고 한다. 
+
+
+![img_1.png](img_1.png)
+
+
+### OrderserviceImpl에서 
+    OrderServiceImpl 입장에서 생성자를 통해 어떤 구현객체가 들어올지는 알 수 없다.
+    OrderServiceImpl 의 생성자를 통해 어떤 구현객체를 주입할지는 오직 Appconfig에서 결정한다! 
+   
