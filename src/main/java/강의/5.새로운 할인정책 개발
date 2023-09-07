@@ -24,3 +24,44 @@
                                                          |
                                         ----------------    ---------------
                                         FixDiscountPolicy   RateDiscountPolicy
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+OrderServiceImpl
+
+	private final DiscountPoilicy discountPoilicy = new FixDiscountPolicy(); // 정책이 바뀌어야 한다.
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+문제점
+1. DIP위반 (항상 추상화에 의존하라 )
+    우리가 예상했던 의존관계도는 위와 같다. 하지만 실제 의존관계는
+    OrderserviceImpl  ------>      <interface>
+            |                     DiscountPolicy
+            |                           ^
+            |                           |
+            |          ----------------    ---------------
+            |-------->FixDiscountPolicy   RateDiscountPolicy
+
+    구체클래스인 fixDiscountPolicy나 RateDiscountPolicy도 의존하는 문제가 발생한다.
+
+    완전 망했어 ..
+
+2. 게다가
+    OrderServiceImpl에서 의존하고있는 코드도 바꿔야 하기때문에 OCP마저 위반한다.
+
+    	private final DiscountPoilicy discountPoilicy = new FixDiscountPolicy();
+         ->
+         private final DiscountPoilicy discountPoilicy = new RateDiscountPolicy();
+
+---------------------------------------------------------------------------------------------------------------------------------------
+해결책
+    DIP를 위반하지 않도록 인터페이스만 의존할수 있도록 의존관계를 바꿔야한다.
+
+    어떻게..?
+     private DiscountPoilicy discountPoilicy; (final을 붙이면 값을 무조건 할당해야되기때문에 뺌)
+
+     하지만 실제로 돌려보면 nullpoint exception이 나는걸 볼수있다.
+     왜냐면 실제 구체화된 코드가 연결되어있지 않기 때문이다.
+
+     이 문제를 해결하려면 누군가가 클라이언트인 OrderServiceImpl에 DiscountPolicy의 구현객체를 대신 생성하고 주입해줘야한다...
+
