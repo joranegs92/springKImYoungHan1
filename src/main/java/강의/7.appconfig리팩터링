@@ -1,0 +1,39 @@
+기존 appconifg
+    public class AppConfig {
+
+	  public MemberService memberService(){
+	  	return new MemberServiceImpl(new MemoryMemberRepository());  ---> memberRepository라는 역할이 안보임 
+	  }
+
+	  public OrderService orderService(){
+	  	return new OrderServiceImpl(new MemoryMemberRepository(), new RateDiscountPolicy(), new FixDiscountPolicy()); ---> discountPolicy역할이 안보임 
+	  }
+현재 AppConfig를 보면 중복이 있고 역할에 따른 구현이 잘 안보인다.
+수정된 appconfig
+
+    public class AppConfig {
+    
+        public MemberService memberService(){
+            return new MemberServiceImpl(memberRepository());
+        }
+    
+        private MemberRepository memberRepository() {  --> MemberRepository가 보여진다 
+            return new MemoryMemberRepository();  ---> 정책이 바뀌면 이 부분만 바꾸면 된다 
+        }
+    
+        public OrderService orderService(){
+            return new OrderServiceImpl(memberRepository(), discountPoilicy()); --> memoryMemberRepository가 중복됐던것을 memberRepository를 받아서 해결 , 
+        }
+    
+        public DiscountPoilicy discountPoilicy() {
+            return new FixDiscountPolicy();   ---> 정책이 바뀌면 이 부분만 바꾸면 된다 
+        }
+    }
+
+
+
+
+
+
+![img](../../resources/img/20231201_142429.png)
+이제 구성된 구성도대로 appconfig에서 그대로 보이게 된다 

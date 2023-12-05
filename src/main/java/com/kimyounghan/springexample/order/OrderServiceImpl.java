@@ -10,12 +10,12 @@ public class OrderServiceImpl implements OrderService{
 
 	private final MemberRepository memberRepository;
 	private final DiscountPoilicy discountPoilicy;
-	private final FixDiscountPolicy fixDiscountPolicy;
+	//private final FixDiscountPolicy fixDiscountPolicy;
 
-	public OrderServiceImpl(MemberRepository memberRepository, DiscountPoilicy discountPoilicy, FixDiscountPolicy fixDiscountPolicy) {
+	public OrderServiceImpl(MemberRepository memberRepository, DiscountPoilicy discountPoilicy/*, FixDiscountPolicy fixDiscountPolicy*/) {
 		this.memberRepository = memberRepository;
 		this.discountPoilicy = discountPoilicy;
-		this.fixDiscountPolicy = fixDiscountPolicy;
+	//	this.fixDiscountPolicy = fixDiscountPolicy;
 	}
 
 
