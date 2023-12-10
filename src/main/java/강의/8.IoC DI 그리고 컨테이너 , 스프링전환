@@ -1,0 +1,48 @@
+
+AppConfig라는 애가 이제 프로그램의 흐름의 제어를 가져왔다.
+
+
+프레임워크 vs 라이브러리
+
+        프레임워크는 내가 작성한 코드를 제어하고 대신 실행한다
+        내가 작성한 코드를 직접 제어한다면 라이브러리다.
+의존관계 주입 DI
+
+
+--------------------------------------------------------------------------
+
+기존의 appConfig에는 스프링 설정이 하나도 없었지만 이제 스프링설정으로 바꾼다.
+@Configuration 과 @Bean을 통해 spring 에 bean으로 등록한다
+
+
+    	memberApp에 아래의 코드를 추가한다
+    	ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+
+    	스프링은 여기서 모든 객체를 관리해준다. Appconfig.class를 넣어주면 이안에 있는 설정을 기반으로 스프링이
+    	안에있는 @bean이 달려있는 객체들을 빈으로 관리한다.
+
+
+memberApp을 돌리면
+
+        > Task :MemberApp.main()
+        15:43:27.211 [main] DEBUG org.springframework.context.annotation.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@3234e239
+        15:43:27.237 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+        15:43:27.420 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerProcessor'
+        15:43:27.423 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.event.internalEventListenerFactory'
+        15:43:27.425 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+        15:43:27.428 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+        15:43:27.445 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'appConfig'
+        15:43:27.454 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'memberService'
+        15:43:27.471 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'memberRepository'
+        15:43:27.474 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'orderService'
+        15:43:27.476 [main] DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'discountPoilicy'
+        이런 결과가 나온다. appconfig부터 discountPolicy까지 빈으로 등록된걸 확인할 수 있다.
+
+Appconfig
+
+    - ApplicaionContext를 스프링컨테이너라고 한다
+    - 기존에는 개발자가 Appconfig를 사용해서 직접 객체를 생성하고 DI를 했지만 이제부터는 스프링컨테이너를 통해 사용한다
+    - 스프링컨테이너는 @configuration이 붙은 Appconfig를 설정정보로 사용한다 여기서@Bean이라 적힌 메서드를 모두 호출해서
+    반환된 객체를 스프링컨테이너에 등록한다.
+    - 스프링빈은 @Bean이 붙은 메서드의 명을 스프링빈의 이름으로 사용한다 ('memberservice', 'orderservice')
+    - 스프링빈은 application.getBean() 메서드를 사용해서 찾을 수 있다.
