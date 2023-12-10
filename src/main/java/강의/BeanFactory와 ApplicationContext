@@ -1,0 +1,22 @@
+
+BeanFactory
+
+    스프링 컨테이너의 최상위 인터페이스
+    스프링 빈을 관리하고 조회하는 역할을 한다.
+    'getBean()'을 제공
+
+ApplicationContext
+    BeanFactory기능을 모두 상속받아서 제공
+
+
+    public interface ApplicationContext
+        extends EnvironmentCapable, ListableBeanFactory, HierarchicalBeanFactory,MessageSource, ApplicationEventPublisher, ResourcePatternResolver {
+    뿐만아니라 이렇게 상속받아놓음
+
+    1. MessageSource
+        한국에서들어오면 한국어로 미국에서는 영어로 출력
+    2. EnvironmentCapable
+        로컬 개발 운영등을 구분해서 처리해줌
+    3. ApplicationEventPublisher
+        이벤트를 발행하고 구독하는 모델을 편리하게 지원해줌
+
